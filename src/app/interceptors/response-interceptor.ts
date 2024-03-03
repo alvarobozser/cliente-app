@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpEvent, HttpInterceptor, HttpHandler, HttpRequest
-} from '@angular/common/http';
-
+import {HttpEvent, HttpInterceptor, HttpHandler, HttpRequest} from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from '../usuarios/auth.service';
 import { catchError,throwError } from 'rxjs';
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class ResponseInterceptor implements HttpInterceptor {
@@ -20,6 +17,7 @@ constructor(
   intercept(req: HttpRequest<any>, next: HttpHandler):
     Observable<HttpEvent<any>> {
     
+    //Interceptor para normalizar los mensajes 401 y 403 de todas las peticiones
     return next.handle(req).pipe(
       catchError(e=>{
         if(e.status==401 ){

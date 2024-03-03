@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Cliente } from '../clientes';
-import { ClienteService } from '../cliente.service';
-import { ModalService } from '.././detail/modal.service';
+import { ClienteService } from '../services/cliente.service';
+import { ModalService } from '../services/modal.service';
 import swal from 'sweetalert2';
 import { HttpEventType } from '@angular/common/http';
-import { AuthService } from 'src/app/usuarios/auth.service';
+import { AuthService } from 'src/app/auth/auth.service';
+import { Cliente } from '../../models/clientes';
 
 @Component({
   selector: 'app-detail',

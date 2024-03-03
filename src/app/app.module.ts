@@ -1,33 +1,27 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
-import { DirectivaComponent } from './directiva/directiva.component';
-import { ClientesComponent } from './clientes/clientes.component';
-import { ClienteService } from './clientes/cliente.service';
 import { RouterModule } from '@angular/router';
 import { Routes } from '@angular/router';
-import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
-import { FormComponent } from './clientes/form.component';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { PaginatorComponent } from './paginator/paginator.component';
+import { PaginatorComponent } from './components/paginator/paginator.component';
 import { registerLocaleData } from '@angular/common';
 import localeES from '@angular/common/locales/es';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { DetailComponent } from './clientes/detail/detail.component';
-import { LoginComponent } from './usuarios/login.component';
-import { AuthGuardGuard } from './usuarios/guards/auth-guard.guard';
-import { RoleGuardGuard } from './usuarios/guards/role-guard.guard';
+import { LoginComponent } from './components/login/login.component';
+import { RoleGuardGuard } from './guards/role-guard.guard';
 import { TokenInterceptor } from './interceptors/token-interceptor';
 import { ResponseInterceptor } from './interceptors/response-interceptor';
-
+import { FooterComponent } from './components/footer/footer.component';
+import { HeaderComponent } from './components/header/header.component';
+import { DirectivaComponent } from './components/directiva/directiva.component';
+import { ClientesComponent } from './components/clientes/clientes.component';
+import { DetailComponent } from './components/clientes/detail/detail.component';
+import { FormComponent } from './components/clientes/form-client/form.component';
+import { ClienteService } from './components/clientes/services/cliente.service';
 
 registerLocaleData(localeES,'es');
-
-
-
 
 const routes: Routes = [
   { path: '', redirectTo: '/clientes', pathMatch: 'full' },
@@ -38,7 +32,6 @@ const routes: Routes = [
   { path: 'clientes/form/:id', component: FormComponent,canActivate:[RoleGuardGuard],data:{role:'ROLE_ADMIN'}},
   { path: 'login', component: LoginComponent },
 ]
-
 
 
 @NgModule({

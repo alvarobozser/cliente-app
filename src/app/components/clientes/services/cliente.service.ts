@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Cliente } from './clientes';
 import { Observable} from 'rxjs';
 import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import { map, catchError, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
-import { Region } from './Region';
-
-
+import { Cliente } from '../../models/clientes';
+import { Region } from '../../models/Region';
 
 @Injectable({
   providedIn: 'root'
@@ -19,27 +17,21 @@ export class ClienteService {
     private router: Router,
   ) { }
 
-
-
   getRegiones():Observable<Region[]>{
     return this.http.get<Region[]>(this.urlEndpoint + '/regiones')
   }
 
   getClientes(page:any): Observable<any> {
-    // return of (CLIENTES);
     return this.http.get(this.urlEndpoint + '/page/' + page).
       pipe(
         tap((response:any)=>{
           //Importante orden del tap, 
           //ya que Map ya lo ha cambiado a tipo cliente el response por que lo retorna.
-          (response.content as Cliente[]).forEach(cliente=>{
-          })
-        }),
-        
-        map((response:any) => {//Map transforma, tap no.
+          (response.content as Cliente[]).forEach(cliente=>{})}),
+          map((response:any) => {//Map transforma, tap no.
       
-        (response.content as Cliente[]).map(cliente => {
-          cliente.nombre = cliente.nombre;
+          (response.content as Cliente[]).map(cliente => {
+            cliente.nombre = cliente.nombre;
           
          // let datePipe = new DatePipe('es');
          // cliente.createAt=datePipe.transform(cliente.createAt,'EEEE dd, MMMM yyyy');
@@ -48,10 +40,8 @@ export class ClienteService {
         return response;
       }),
       tap(response=>{//Importante orden del tap, 
-     
         //ya que Map ya lo ha cambiado a tipo cliente el response por que lo retorna.
         (response.content as Cliente[]).forEach(cliente=>{
-      
         })
       })
       );
@@ -59,9 +49,7 @@ export class ClienteService {
 
   crearCliente(cliente: Cliente): Observable<Cliente> {
     return this.http.post(this.urlEndpoint, cliente).pipe(
-
       map((response: any) => response.cliente as Cliente),
-
       catchError(e => {
         //Controlar errores
         if (e.status == 400) {
@@ -73,7 +61,6 @@ export class ClienteService {
   }
 
   getCliente(id): Observable<Cliente> {
-    // return of (CLIENTES);
     return this.http.get<Cliente>(`${this.urlEndpoint}/${id}`).pipe(
       catchError(e => {
         if(e.status!=401){
@@ -85,10 +72,8 @@ export class ClienteService {
   }
 
   update(cliente: Cliente): Observable<any> {
-    // return of (CLIENTES);
     return this.http.put<Cliente>(`${this.urlEndpoint}/${cliente.id}`, cliente).pipe(
       catchError(e => {
-        //Capturar los errores del backend, aqui estan almacenados en un SWAL
         if (e.status == 400) {
           return throwError(e);
         }
@@ -98,7 +83,6 @@ export class ClienteService {
   }
 
   delete(id: number): Observable<Cliente> {
-    // return of (CLIENTES);
     return this.http.delete<Cliente>(`${this.urlEndpoint}/${id}`)
   }
 
@@ -112,6 +96,4 @@ export class ClienteService {
     })
     return this.http.request(req)
   }
-
-
 }

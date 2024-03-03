@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Usuarios } from './usuarios';
 import swal from 'sweetalert2';
-import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
+import { Usuarios } from '../models/usuarios';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -35,8 +35,6 @@ export class LoginComponent implements OnInit {
       return;
     } 
 
-
-    
     this.authService.login(this.usuario).subscribe({
       next:response=>{
         this.authService.guardarUsuario(response.access_token);

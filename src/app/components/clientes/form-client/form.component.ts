@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ClienteService } from './cliente.service';
-import { Cliente } from './clientes';
-import { Route, Router, ActivatedRoute } from '@angular/router';
+import { ClienteService } from '../services/cliente.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
-import {MatDatepickerModule} from '@angular/material'
-import { Region } from './Region';
+import { Cliente } from '../../models/clientes';
+import { Region } from '../../models/Region';
 
 
 @Component({
@@ -36,7 +35,6 @@ export class FormComponent implements OnInit {
 
       if (id) {
         this.clienteService.getCliente(id).subscribe((cliente) => this.cliente = cliente)
-
       }
     });
 
@@ -52,7 +50,6 @@ export class FormComponent implements OnInit {
         this.router.navigate(['/clientes'])
         swal('Nuevo Cliente', `El cliente ${cliente.nombre} ha sido creado con éxito`, 'success')
       },
-      //Controlar errores con al peticion
       err =>{
         this.errores=err.error.errors as string[];
       }
@@ -62,7 +59,6 @@ export class FormComponent implements OnInit {
   update() {
     this.clienteService.update(this.cliente).subscribe(
       json => {
-
         this.router.navigate(['/clientes'])
         swal('Cliente Actualizado', `${json.mensaje} : ${json.cliente.nombre}`, 'success')
       },

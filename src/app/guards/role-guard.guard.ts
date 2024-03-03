@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthService } from '../auth.service';
 import swal from 'sweetalert2';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +18,15 @@ export class RoleGuardGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      
+    
+    //Guard para proteger ruta con el rol
+    //Comprueba si estas autenticado, si no a Login
       if(!this.authService.isAuthenticated()){
         this.router.navigate(['/login'])
         return false;
       }
       
+      //Extrae del route el dato del rol y comprueba si el autenticado tiene ese rol de acceso
       let role = route.data['role'] as string;
       if(this.authService.hasRole(role)){
         return true;
