@@ -32,6 +32,38 @@
                         class="img-thumbnail rounded" >
                     </div>
                 </div>
+
+                <div class="row" *ngIf="authService.hasRole('ROLE_ADMIN')">
+                  <td><button class="btn btn-success btn-sm4" [routerLink]="['/facturas/form', cliente.id]">Crear Factura</button></td>
+                </div>
+
+                <div class="row">
+
+                  <div *ngIf="cliente.facturas.length==0" class="alert alert-info my-4"> No hay facturas asociadas al cliente</div>
+
+                  <table *ngIf="cliente.facturas.length>0" class="table-bordered table striped my-4">
+                    <thead>
+                      <tr>
+                        <th>Página</th>
+                        <th>Descripcion</th>
+                        <th>Fecha</th>
+                        <th>Total</th>
+                        <th>Detalle</th>
+                        <th *ngIf="authService.hasRole('ROLE_ADMIN')">Eliminar</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let factura of cliente.facturas">
+                        <td>{{factura.id}}</td>
+                        <td>{{factura.descripcion}}</td>
+                        <td>{{factura.createAt}}</td>
+                        <td>{{factura.total}}€</td>
+                        <td *ngIf="authService.hasRole('ROLE_BASIC')"><button class="btn btn-primary btn-sm" type="button" [routerLink]="['/facturas',factura.id]">Ver Detalle</button></td>
+                        <td *ngIf="authService.hasRole('ROLE_ADMIN')"><button class="btn btn-danger btn-sm" type="button" (click)="delete(factura)">Eliminar</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
             </div>
         </div>
         <div class="modal-footer">

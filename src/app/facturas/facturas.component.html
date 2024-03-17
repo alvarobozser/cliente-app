@@ -1,0 +1,79 @@
+<div class="card bg-light" >
+    <div class="card-header">{{titulo}} : {{factura.descripcion}}</div>
+    <div class="card-body">
+        <h4 class="card-title">
+            <a [routerLink]="['/clientes']" class="btn btn-ligth btn-xs">&laquo; Volver</a>
+        </h4>
+
+        <form #facturaForm>
+            <div class="form-group row" *ngIf="factura.cliente">
+                <label for="cliente" class="col-sm-2 mb-2 col-form-label">Cliente</label>
+                <div class="col-sm-6">
+                    <input type="text" name="cliente" value="{{factura.cliente.nombre}} {{factura.cliente.apellido}}" class="form-control" disabled>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="descripcion" class="col-sm-2 mb-2 col-form-label">Descripción</label>
+                <div class="col-sm-6">
+                    <input type="text" [(ngModel)]="factura.descripcion" class="form-control" name="descripcion" required #descripcion="ngModel">
+                    <div class="alert alert-danger" *ngIf="descripcion.invalid && descripcion.touched">La descripción es requerida</div>
+                </div>
+            </div>
+            
+            <div class="form-group row">
+                <label for="observacion" class="col-sm-2 mb-2 col-form-label">Observación</label>
+                <div class="col-sm-6">
+                    <textarea [(ngModel)]="factura.observacion" class="form-control" name="observacion"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-6 mb-4">
+                    <label for="producto" class="col-sm-5 col-form-label">Lista de Productos</label>
+                    <div class="d-flex">
+                        <input class="form-control ml-2" #inputBusqueda type="text" placeholder="Buscar productos..." style="margin-right: 25px;"
+                         (change)="filtrarProductos($event.target.value)">
+
+                    <select class="form-control" name="producto" class="form-control" (change)="event($event.target.value)">
+                        <option [ngValue]="undefined">Seleccione un producto...</option>
+                        <option *ngFor="let producto of productos" [ngValue]="producto.id" >
+                            {{producto.nombre}}
+                        </option>
+                    </select>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="factura.items.length==0" class="alert alert-info my-4">Esta factura aún no contiene lineas</div>
+            <table class="table table-striped table-hover table-sm" *ngIf="factura.items.length>0" >
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Total</th>
+                        <th>Eliminar</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let items of factura.items">
+                        <td>{{items.producto.nombre}}</td>
+                        <td>{{items.producto.precio}}€</td>
+                        <td><input type="number" value="{{items.cantidad}}" class="form-control col-sm-4" (change)="actuCantidad(items.producto.id,$event)"
+                            style="max-width: 150px;min-width: 150px;"></td>
+                        <td>{{items.calcularImporte()}}€</td>  
+                        <td><button class="btn btn-danger btn-sm" type="button" (click)="eliminar(items.producto.id)">Eliminar</button></td>             
+                    </tr>
+                </tbody>
+            </table>
+
+            <h5 style="float: right" *ngIf="factura.items.length>0">Total Importe: <span>{{factura.calcularTotal()}}</span></h5>
+
+            <div class="form-group row">
+                <div class="col-sm-6 mt-4">
+                    <input type="submit" value="Crear Factura" class="btn btn-secondary" (click)="crearFactura()" [disabled]="descripcion.invalid && descripcion.touched || factura.items.length==0">
+                </div>
+            </div> 
+        </form>
+    </div>
+</div>

@@ -4,7 +4,7 @@ import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { Routes } from '@angular/router';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { registerLocaleData } from '@angular/common';
 import localeES from '@angular/common/locales/es';
@@ -20,6 +20,13 @@ import { ClientesComponent } from './components/clientes/clientes.component';
 import { DetailComponent } from './components/clientes/detail/detail.component';
 import { FormComponent } from './components/clientes/form-client/form.component';
 import { ClienteService } from './components/clientes/services/cliente.service';
+import { DetailFacturaComponent } from './facturas/detail-factura/detail-factura.component';
+import { FacturasComponent } from './facturas/facturas.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+
+
 
 registerLocaleData(localeES,'es');
 
@@ -31,6 +38,8 @@ const routes: Routes = [
   { path: 'clientes/form', component: FormComponent ,canActivate:[RoleGuardGuard],data:{role:'ROLE_ADMIN'}},
   { path: 'clientes/form/:id', component: FormComponent,canActivate:[RoleGuardGuard],data:{role:'ROLE_ADMIN'}},
   { path: 'login', component: LoginComponent },
+  { path: 'facturas/:id', component: DetailFacturaComponent,canActivate:[RoleGuardGuard],data:{role:'ROLE_BASIC'} },
+  { path: 'facturas/form/:idCliente', component: FacturasComponent,canActivate:[RoleGuardGuard],data:{role:'ROLE_ADMIN'} },
 ]
 
 
@@ -44,7 +53,9 @@ const routes: Routes = [
     FormComponent,
     PaginatorComponent,
     DetailComponent,
-    LoginComponent
+    LoginComponent,
+    DetailFacturaComponent,
+    FacturasComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,6 +63,10 @@ const routes: Routes = [
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    MatFormFieldModule
   ],
   providers: [ClienteService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

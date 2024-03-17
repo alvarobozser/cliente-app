@@ -20,7 +20,7 @@ export class ClientesComponent implements OnInit {
 
   constructor(
     private clienteService: ClienteService,
-    private modalService: ModalService, 
+    public modalService: ModalService, 
     private activateRoute: ActivatedRoute,
     public authService: AuthService
   ) { }

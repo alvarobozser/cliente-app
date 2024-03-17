@@ -1,3 +1,4 @@
+import { Factura } from "src/app/facturas/models/factura";
 import { Region } from "./Region";
 
 export class Cliente{
@@ -8,4 +9,5 @@ export class Cliente{
     createAt:string;
     foto:string;
     region:Region;
+    facturas:Factura[]=[]
 }
