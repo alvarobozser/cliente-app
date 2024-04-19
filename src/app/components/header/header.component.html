@@ -16,8 +16,10 @@
         <li class="nav-item" routerLinkActive="active">
           <a class="nav-link active" aria-current="page" routerLink="/clientes">Clientes</a>
         </li>
+        
       </ul>
       <ul class="navbar-nav navbar-right">
+        <button class="btn btn-primary" routerLink="/directivas">Publicar Viaje</button>
         <li *ngIf="!authService.isAuthenticated()"><a routerLink="/login" class="btn btn-outline-primary">Iniciar Sesión</a></li>
         <li class="nav-item" routerLinkActive="active" *ngIf="authService.isAuthenticated()">
           <a class="nav-link active" aria-current="page" >{{authService.usuario.nombre}}</a>
